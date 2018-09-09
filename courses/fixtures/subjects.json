@@ -1,0 +1,34 @@
+[
+{
+  "model": "courses.subject",
+  "fields": {
+    "title": "Fiqh",
+    "slug": "fiqh"
+  },
+  "pk": 1
+},
+{
+  "model": "courses.subject",
+  "fields": {
+    "title": "Ushul FIqh",
+    "slug": "ushul-fiqh"
+  },
+  "pk": 2
+},
+{
+  "model": "courses.subject",
+  "fields": {
+    "title": "Hadith",
+    "slug": "hadith"
+  },
+  "pk": 3
+},
+{
+  "model": "courses.subject",
+  "fields": {
+    "title": "Bahasa Arab",
+    "slug": "bahasa-arab"
+  },
+  "pk": 4
+}
+]

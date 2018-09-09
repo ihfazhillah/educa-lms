@@ -1,0 +1,39 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}My Courses{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+  <a class="btn btn-info pull-right" href="{% url 'course_create' %}">Create a course</a>
+  </div>
+</div>
+<div class="row">
+  {% for course in object_list %}
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <strong class="card-title mb-3">{{ course.title }}</strong>
+      </div>
+      <div class="card-body">
+        <div class="mx-auto d-block">
+          {% if course.overview %}
+          <p class="text-sm-center mt-2 mb-1">{{ course.overview }}</p>
+          {% else %}
+          <p class="text-sm-center mt-2 mb-1">No description.</p>
+          {% endif %}
+
+        </div>
+        <hr>
+        <div class="card-text text-sm-center">
+          <a href="{% url 'course_edit' course.id %}">Edit</a>
+          <a href="{% url 'course_delete' course.id %}">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>You haven't create a course yet</p>
+  {% endfor %}
+</div>
+{% endblock %}
