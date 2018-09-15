@@ -1,0 +1,35 @@
+{% extends 'dashboard_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{% if object %}
+Edit content "{{ object.title }}"
+{% else %}
+Create a new content
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    {% if object %}
+    <h3>Edit content <small class="text-muted">"{{ object.title }}"</small></h3>
+    {% else %}
+    <h3>Create a new content</h3>
+    {% endif %}
+  </div>
+</div>
+<hr>
+
+<div class="row">
+  <div class="col-md-12">
+    <h4>Content Info</h4>
+    <form action="" method="post" enctype='multipart/form-data'>
+      {{ form | crispy }}
+      {% csrf_token %}
+
+        <input class="btn btn-primary" type="submit" value="Submit Content">
+    </form>
+  </div>
+</div>
+{% endblock %}

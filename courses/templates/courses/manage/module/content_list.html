@@ -1,0 +1,43 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %} Module {{ module.order | add:1 }} | {{ module.title }}{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <h3>Module <small class="text-muted">{{ module.order | add:1 }} | {{ module.title }}</small></h3>
+    <h4>Module Contents</h4>
+    <hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      {% for content in module.contents.all %}
+      <li class="list-group-item" data-id="{{ content.id }}">
+        <p>{{ content.item }}</p>
+        <a href="#">Edit</a>
+        <form action="{% url 'module_content_delete' content.id %}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="Delete" class="btn btn-danger">
+        </form>
+      </li>
+      {% empty %}
+      <p>This module haven't any content yet.</p>
+      {% endfor %}
+    </ul>
+
+    <hr>
+    <h3>Add a new content:</h3>
+    <nav class="nav">
+      <a class="nav-link btn btn-primary" href="{% url 'module_content_create' module.id 'text' %}">Text</a>
+      <a class="nav-link btn btn-primary" href="{% url 'module_content_create' module.id 'video' %}">Video</a>
+      <a class="nav-link btn btn-primary" href="{% url 'module_content_create' module.id 'image' %}">Image</a>
+      <a class="nav-link btn btn-primary" href="{% url 'module_content_create' module.id 'file' %}">File</a>
+    </nav>
+  </div>
+</div>
+
+{% endblock %}
