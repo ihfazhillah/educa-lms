@@ -7,8 +7,9 @@
 <h3 class="menu-title">Course "{{ module.course.title }}"</h3>
 
 {% for m in module.course.modules.all %} 
-<li class='{% if m == module %}active{% endif %}'
-	><a href="{% url 'module_content_list' m.id %}">{{ m.order| add:1 }}. {{ m.title }}</a></li>
+<li data-id={{ m.id }} class='{% if m == module %}active{% endif %}'
+	><a href="{% url 'module_content_list' m.id %}"><span class="order">{{ m.order| add:1 }}
+</span>. {{ m.title }}</a></li>
 {% endfor %}
 {% endblock %}
 
@@ -24,7 +25,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <ul class="list-group">
+    <ul id='contents' class="list-group">
       {% for content in module.contents.all %}
       <li class="list-group-item" data-id="{{ content.id }}">
 				<p>{{ content.item }} ({{ content.item | model_name }})</p>
@@ -50,4 +51,48 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block domready %}
+jQuery('#left-sidebar').sortable({
+	cancel: 'h3',
+		stop: function(event, ui){
+			modules_order = {}
+
+			jQuery('#left-sidebar li').each(function() {
+				jQuery(this).find('.order').text(jQuery(this).index())
+				modules_order[jQuery(this).data('id')] = jQuery(this).index() - 1;
+			})
+
+			jQuery.ajax({
+				type: 'POST',
+				url: '{% url "module_order" %}',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(modules_order)
+			})
+
+
+		}
+});
+
+jQuery('#contents').sortable({
+		stop: function(event, ui){
+			modules_order = {}
+
+			jQuery('#contents li').each(function() {
+				modules_order[jQuery(this).data('id')] = jQuery(this).index() - 1;
+			})
+
+			jQuery.ajax({
+				type: 'POST',
+				url: '{% url "content_order" %}',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(modules_order)
+			})
+
+
+		}
+});
 {% endblock %}

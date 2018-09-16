@@ -669,5 +669,12 @@
     {% include 'extra_admin_js.html' %}
     
 
+			<script>
+				jQuery(document).ready(function(){
+			{% block domready %}
+			{% endblock %}
+				})
+			</script>
+
 </body>
 </html>
