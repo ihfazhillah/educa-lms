@@ -1,6 +1,16 @@
 {% extends 'dashboard_base.html' %}
+{% load course %}
 
 {% block title %} Module {{ module.order | add:1 }} | {{ module.title }}{% endblock %}
+
+{% block left_sidebar %}
+<h3 class="menu-title">Course "{{ module.course.title }}"</h3>
+
+{% for m in module.course.modules.all %} 
+<li class='{% if m == module %}active{% endif %}'
+	><a href="{% url 'module_content_list' m.id %}">{{ m.order| add:1 }}. {{ m.title }}</a></li>
+{% endfor %}
+{% endblock %}
 
 {% block content %}
 
@@ -17,8 +27,8 @@
     <ul class="list-group">
       {% for content in module.contents.all %}
       <li class="list-group-item" data-id="{{ content.id }}">
-        <p>{{ content.item }}</p>
-        <a href="#">Edit</a>
+				<p>{{ content.item }} ({{ content.item | model_name }})</p>
+				<a href="{% url 'module_content_update' module.id content.item|model_name content.item.id %}" class="btn btn-primary">Edit</a>
         <form action="{% url 'module_content_delete' content.id %}" method="post">
           {% csrf_token %}
           <input type="submit" value="Delete" class="btn btn-danger">
