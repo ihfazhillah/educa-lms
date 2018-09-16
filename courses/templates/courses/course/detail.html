@@ -10,6 +10,16 @@
   {{ object.modules.count }} modules. Instructor: {{ object.owner.username }}</small>
 
 <p>{{ object.overview | linebreaks }}</p>
+
+{% if request.user.is_authenticated %}
+<form action="{% url 'student-enroll-course' %}" method="post">
+  {% csrf_token %}
+  {{ enroll_form }}
+  <input type="submit" value="Enroll" class='btn btn-primary'>
+</form>
+{% else %}
+<a class="btn btn-primary" href="{% url 'student-registration' %}">Register to enroll</a>
+{% endif %}
 {% endblock %}
 
 

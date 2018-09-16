@@ -24,6 +24,9 @@ class Course(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     overview = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    students = models.ManyToManyField(User,
+                                      related_name='courses_joined',
+                                      blank=True)
 
     def __str__(self):
         return self.title

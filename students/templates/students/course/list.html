@@ -1,0 +1,34 @@
+{% extends 'dashboard_base.html' %}
+{% block title %}My Courses{% endblock %}
+
+{% block left_sidebar %}
+<li><a href="{% url 'student_course_list' %}">My Courses</a></li>
+<hr>
+
+<li><a class="btn btn-primary" href="{% url 'course_list' %}">Browse Course</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  {% for course in object_list %}
+<div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                              <strong class="card-title mb-3">{{ course.title }}</strong>
+                            </div>
+                            <div class="card-body">
+                              {{ course.overview | linebreaks }}
+                                <hr>
+                                <div class="card-text text-sm-center">
+                                  <a class="btn btn-primary" href="{% url 'student_course_detail' course.id %}">Access Course</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% empty %}
+                    <p>You're not enrolled into any course yet.</p>
+                    <a class="btn btn-primary" href="{% url 'course_list' %}">Browse courses</a>
+                    {% endfor %}
+</div>
+{% endblock %}

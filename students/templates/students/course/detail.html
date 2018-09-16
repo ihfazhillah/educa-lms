@@ -1,0 +1,35 @@
+{% extends 'dashboard_base.html' %}
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block left_sidebar %}
+    {% for m in object.modules.all %}
+    <li><a href="{% url 'student_course_detail_module' object.id m.id %}">{{ m.title }}</a></li>
+    {% empty %}
+    <p>No Module yet</p>
+    {% endfor %}
+
+<li><a class="btn btn-primary" href="{% url 'student_course_list' %}">My Courses</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <h3>Contents</h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <ul class='list-group'>
+    {% for content in module.contents.all %}
+    {% with content.item as item %}
+      <li class='list-group-item'>
+        {{ item.title }}
+        {{ item.render }}
+      </li>
+      {% endwith %}
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
