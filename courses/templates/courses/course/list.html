@@ -1,0 +1,37 @@
+{% extends 'public/base.html' %}
+
+{% block title %}
+{% if subject %}
+{{ subject.title }} courses
+{% else %}
+All Courses
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  {% for course in courses %}
+<div class="card m-3">
+  <div class="card-body">
+  <div class="card-title">
+    <a href="{% url 'course_detail' course.slug %}">
+    {{ course.title }}
+    </a>
+    </div>
+  <p>
+    ({{ course.total_modules }}) modules.
+  </p>
+  <p>
+  Instructor: {{ course.owner.username }}
+  </p>
+
+  <p>
+  <a href="{% url 'course_list_subject' course.subject.slug %}">
+  {{ course.subject.title }}
+  </a>
+  </p>
+  </div>
+</div> 
+  {% endfor %}
+</div>
+{% endblock %}
