@@ -1,5 +1,7 @@
 {% extends 'dashboard_base.html' %}
+{% load cache %}
 {% block title %}{{ object.title }}{% endblock %}
+
 
 {% block left_sidebar %}
     {% for m in object.modules.all %}
@@ -21,14 +23,16 @@
 <div class="row">
   <div class="col-md-8 mx-auto">
     <ul class='list-group'>
+			{% cache 300 module_contents module %}
     {% for content in module.contents.all %}
     {% with content.item as item %}
       <li class='list-group-item'>
-        {{ item.title }}
-        {{ item.render }}
+				<p class="list-group-item-title">{{ item.title }}</p>
+				<p class="list-group-item-text">{{ item.render}}</p>
       </li>
       {% endwith %}
     {% endfor %}
+		{% endcache %}
     </ul>
   </div>
 </div>
