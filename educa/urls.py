@@ -10,6 +10,7 @@ urlpatterns = [
     # url(r'^$', 'educa.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^api/', include('courses.api.urls', namespace='api')),
     url(r'^accounts/login/$', auth_views.login, name='login'),
     url(r'^accounts/logout/$', auth_views.logout, name='logout'),
     url(r'^admin/', include(admin.site.urls)),
